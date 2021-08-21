@@ -1,0 +1,6 @@
+Database creation
+Relational tables
+Insert dummy info
+Blog post css style
+Create end points
+
