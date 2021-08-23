@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#post-display {
+  margin: 0.5em 1em;
+}
+
+.post {
+  border: rgb(39, 41, 156) 3px solid;
+  border-radius: 5px;
+  width: 31%;
+  padding: 0.3em;
+  max-height: 200px;
+  display: inline-block;
+  margin: 0.8em;
+}
+
+.title {
+  font-size: 1.5em;
+}
+
+.author {
+  font-size: 0.8em;
+  color: grey;
+}
+
+.description {
+  max-height: 95px;
+  overflow: hidden;
+}

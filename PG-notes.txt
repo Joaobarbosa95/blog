@@ -1,0 +1,12 @@
+Before 
+- Forking processes for each connection (safer):
+    -> Prevents one client from crashing the entire database
+    -> less overhead between forking a process and creating a thread (in Linux)
+    -> moving to a multithread architecture will require to extensive rewriting
+
+Problem
+- Clients tend to open multiple connections
+- Forking fast transactions become expensive 
+
+Pool vs Client
+

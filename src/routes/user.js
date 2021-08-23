@@ -1,11 +1,14 @@
 const Router = require("express-promise-router");
 
 const db = require("../db");
-
-router = new Router();
+const router = new Router();
 
 module.exports = router;
 
 router.get("/", (req, res) => {
-  res.send("Users");
+  res.send("users");
+});
+
+router.get("/create", (req, res) => {
+  res.render("create-user");
 });

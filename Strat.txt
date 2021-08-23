@@ -4,3 +4,22 @@ Insert dummy info
 Blog post css style
 Create end points
 
+
+Tables
+- Author
+    --> authorId
+    --> name
+    --> email
+    --> hashed_password
+    -->
+
+- Posts
+    --> postId
+    --> text
+    --> createdAt
+    --> description
+    --> foreign_key authorId
+
+
+
+
