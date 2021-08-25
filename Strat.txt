@@ -21,5 +21,22 @@ Tables
     --> foreign_key authorId
 
 
+CREATE TABLE author (
+    authorId SERIAL PRIMARY KEY,
+    username VARCHAR(20) UNIQUE NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    hashed_password VARCHAR(50) NOT NULL 
+); 
+
+CREATE TABLE posts (
+    postId SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    text TEXT NOT NULL,
+    description TEXT NOT NULL,
+    createdAt TIMESTAMP NOT NULL,
+    author INT NOT NULL,
+    FOREIGN_KEY (author) REFERENCES (authorId) 
+);
+
 
 

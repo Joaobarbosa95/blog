@@ -4,15 +4,18 @@
 </head>
 
 <body>
-    <form action="">
-        <label for="name">Name: </label>
-        <input type="text" name="name">
+    <% if(error) { %>
+        <h3><%= error %></h3>
+       <% } %>
+    <form method="POST" action="/user/create">
+        <label for="username">Username: </label>
+        <input type="text" name="username" required>
         <label for="email">Email: </label>
-        <input type="text" name="email">
-        <label for="password-1">Password: </label>
-        <input type="password" name="password-1">
-        <label for="password-2">Repeat password: </label>
-        <input type="password" name="password-2">
+        <input type="text" name="email" required>
+        <label for="password1">Password: </label>
+        <input type="password" name="password1" required>
+        <label for="password2">Repeat password: </label>
+        <input type="password" name="password2" required>
         <input type="submit" value="Submit">
     </form>    
 </body>
