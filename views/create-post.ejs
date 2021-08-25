@@ -3,17 +3,16 @@
     <%- include("./templates/head") -%>
 </head>
 <body>
-    <form method="POST" action="post/new-post">
+    <form method="POST" action="/post/create">
         <label for="title">
             Title
         </label>
-        <input type="text" name="title" id="title">
+        <input type="text" name="title" id="title" required>
         <label for="description">Description</label>
-        <input type="text" name="description" id="description">
+        <input type="text" name="description" id="description" required>
         <label for="text">Text</label>
-        <input type="text" name="text" id="text">
+        <input type="text" name="text" id="text" required>
         <input type="submit" value="Submit">
-    </form>
-    
+    </form> 
 </body>
 </html>

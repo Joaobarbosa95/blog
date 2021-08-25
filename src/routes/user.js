@@ -75,7 +75,7 @@ router.post("/create", async (req, res) => {
       [username, email, hashedPassword]
     );
 
-    res.status(201).render("index");
+    res.status(201).redirect("/");
   } catch (error) {
     console.log(error);
   }

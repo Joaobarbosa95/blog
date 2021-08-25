@@ -14,12 +14,13 @@ router.get("/create", (req, res) => {
   res.render("create-post");
 });
 
-router.post("/new-post", async (req, res) => {
-  const { title, description, text } = req.query;
+router.post("/create", async (req, res) => {
+  const { title, description, text } = req.body;
+
   try {
     await db.query(
-      "INSERT INTO posts (title, description, text, createdAt) VALUES($1, $2, $3, NOW(), $4)",
-      [title, description, text, 1] // Author example just for test
+      "INSERT INTO posts (title, description, text, createdAt, author) VALUES($1, $2, $3, NOW(), $4)",
+      [title, description, text, 3] // Author example just for test
     );
     res.status(201).redirect("/");
   } catch (error) {
