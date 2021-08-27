@@ -38,5 +38,9 @@ CREATE TABLE posts (
     FOREIGN_KEY (author) REFERENCES (authorId) 
 );
 
+/home
+Homepage. Show recent added posts
+
+
 
 

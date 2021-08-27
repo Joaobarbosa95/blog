@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const mountRoutes = require("./routes");
 
 const port = process.env.PORT || 3000;
@@ -16,6 +17,7 @@ app.use(
     extended: true,
   })
 );
+app.use(cookieParser());
 
 mountRoutes(app);
 

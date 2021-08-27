@@ -4,8 +4,8 @@
 </head>
 
 <body>
-    <% if(error) { %>
-        <h3><%= error %></h3>
+    <% if(message) { %>
+        <h3><%= message %></h3>
        <% } %>
     <form method="POST" action="/user/create">
         <label for="username">Username: </label>

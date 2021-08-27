@@ -5,6 +5,7 @@ const router = new Router();
 
 module.exports = router;
 
+// home -> show recent added posts (no login required)
 router.get("/", async (req, res) => {
   try {
     const { rows } = await db.query(

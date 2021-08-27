@@ -1,58 +1,41 @@
 const Router = require("express-promise-router");
 const bcrypt = require("bcrypt");
 const emailValidator = require("email-validator");
+const tokenValidation = require("../middleware/jwt-validation");
 
 const db = require("../db");
 const router = new Router();
 
 module.exports = router;
 
-router.get("/", (req, res) => {
+router.get("/", tokenValidation, (req, res) => {
+  // req.username
+  // req.userid
   res.send("users");
 });
 
 router.get("/create", (req, res) => {
-  res.render("create-user", { error: undefined });
+  res.render("create-user", { message: null });
 });
 
 router.post("/create", async (req, res) => {
   const { username, email, password1, password2 } = req.body;
-  // check usename, email and password length
-  if (username.length < 5) {
-    res.status(401).render("create-user", {
-      error: "Username must be at least 5 characters long",
-    });
-    return;
-  }
-
-  if (username.length > 20) {
-    res.status(401).render("create-user", {
-      error: "Username must not exceed 20 characters",
-    });
-    return;
-  }
-
-  if (password1.length < 7) {
-    res.status(401).render("create-user", {
-      error: "Password must be at least 8 characters long",
-    });
-    return;
-  }
-
-  if (!emailValidator.validate(email)) {
-    res.status(401).render("create-user", {
-      error: "Invalid email",
-    });
-    return;
-  }
-
-  // Check if passwords check
-  if (password1 !== password2) {
-    res.status(401).render("create-user", { error: "Passwords don't match" });
-    return;
-  }
 
   try {
+    // check usename, email and password
+    if (username.length < 5)
+      throw "Username must be at least 5 characters long";
+
+    if (username.length > 20) throw "Username must not exceed 20 characters";
+
+    if (password1.length < 7)
+      throw "Password must be at least 8 characters long";
+
+    if (!emailValidator.validate(email)) throw "Invalid Email";
+
+    // Check if passwords check
+    if (password1 !== password2) throw "Passwords don't match";
+
     // Query db for username and email collision
     const collision = await db.query(
       "SELECT * FROM author WHERE username = $1 OR email = $2",
@@ -60,12 +43,7 @@ router.post("/create", async (req, res) => {
     );
 
     // Collision check
-    if (collision.rows[0]) {
-      res
-        .status(401)
-        .render("create-user", { error: "Username or email already in use" });
-      return;
-    }
+    if (collision.rows[0]) throw "Username or email already in use";
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password1, 10);
@@ -77,6 +55,6 @@ router.post("/create", async (req, res) => {
 
     res.status(201).redirect("/");
   } catch (error) {
-    console.log(error);
+    res.status(401).render("create-user", { message: error });
   }
 });

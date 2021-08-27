@@ -1,0 +1,17 @@
+<html lang="en">
+<head>
+    <%- include("./templates/head") -%>
+</head>
+<body>
+    <% if(message) { %> 
+        <h1><%= message %></h1>
+    <% } %> 
+    <form method="POST" action="/login">
+        <label for="username">Username: </label>
+        <input type="text" name="username">
+        <label for="password">Password: </label>
+        <input type="password" name="password">
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
