@@ -68,3 +68,12 @@ router.post("/create", async (req, res) => {
     res.status(401).render("create-user", { message: error });
   }
 });
+
+route.get("/delete", tokenValidation, async (req, res) => {
+  const id = req.userid;
+
+  // The delete is on cascade mode, but that means it will also delete all posts
+  const response = await db.query("DELETE FROM author WHERE id=$1", [id]);
+
+  res.status(204).render("login", { message: "Account and posts deleted" });
+});
