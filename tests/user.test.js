@@ -3,8 +3,11 @@ const app = require("../src/server");
 
 jest.setTimeout(10000);
 
-test("GET /user/create", async () => {
-  await request(app).get("/user/create").expect(200);
+// TEST /user with validation token
+describe("GET /user/create", function () {
+  it("get create page", async () => {
+    await request(app).get("/user/create").expect(200);
+  });
 });
 
 describe("POST /user/create", function () {

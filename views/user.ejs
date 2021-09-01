@@ -1,0 +1,17 @@
+<html lang="en">
+<head>
+    <%- include("./templates/head") -%>
+</head>
+<body>
+    <h1>Profile</h1>
+    <button onclick="location.href='logout'">Logout</button>
+    <p>username: <%= profile.username %></p>
+    <h2>Posts:</h2>
+        <% profile.posts.forEach(post => { %>
+            <div>
+                <span><%= post.title %></span>
+                    <button onclick="location.href=`post/${<%= post.id %>}`">Read more</button>
+            </div>
+        <% }) %>
+</body>
+</html>

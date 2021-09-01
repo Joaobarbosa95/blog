@@ -11,7 +11,15 @@ module.exports = router;
 router.get("/", tokenValidation, (req, res) => {
   // req.username
   // req.userid
-  res.send("users");
+  res.render("user", {
+    profile: {
+      username: req.username,
+      posts: [
+        { title: "O meu pardalinho", id: 3 },
+        { title: "LECAS LEQUINHAS", id: 5 },
+      ],
+    },
+  });
 });
 
 router.get("/create", (req, res) => {
@@ -55,7 +63,7 @@ router.post("/create", async (req, res) => {
       [username, email, hashedPassword]
     );
 
-    res.redirect(201, "/");
+    res.redirect("/");
   } catch (error) {
     res.status(401).render("create-user", { message: error });
   }

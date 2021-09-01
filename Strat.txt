@@ -40,21 +40,29 @@ CREATE TABLE posts (
 );
 
 CREATE TABLE IF NOT EXISTS jwt_auth (
-        authorId INT PRIMARY KEY,
+        author_id INT PRIMARY KEY,
         jwt TEXT,
         CONSTRAIN fk author
         FOREIGN_KEY authorId 
-        REFERENCES author(authorId)
+        REFERENCES author(author_id)
         ON DELETE CASCADE
 )
 
 CREATE TABLE IF NOT EXISTS comments (
     commentId SERIAL PRIMARY KEY,
-    
+    post INT NOT NULL,
+    author INT NOT NULL 
+
+    FOREIGN_KEY (post_id) REFERENCES posts(post_id) 
+    FOREIGN_KEY (author) REFERENCES author(author_id) 
+    ON DELETE CASCADE
 )
 
+// /user --> create user dashboard
+// /user/delete -- > user delete route
+// /user/password --> user upgrade password
 
-
-
+// post/:id --> read more about the post/article
+// post/search --> search based on key words
 
 
