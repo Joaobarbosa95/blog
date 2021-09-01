@@ -2,10 +2,11 @@
   "name": "blog",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "devStart": "nodemon src/server.js"
+    "start": "node src/index.js",
+    "devStart": "env-cmd -f ./config/dev.env nodemon src/index.js",
+    "test": "env-cmd -f ./config/test.env jest --forceExit --detectOpenHandles --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,12 @@
     "pg": "^8.7.1"
   },
   "devDependencies": {
-    "nodemon": "^2.0.12"
+    "env-cmd": "^10.1.0",
+    "jest": "^27.1.0",
+    "nodemon": "^2.0.12",
+    "supertest": "^6.1.6"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
   }
 }

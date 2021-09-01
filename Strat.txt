@@ -36,10 +36,24 @@ CREATE TABLE posts (
     createdAt TIMESTAMP NOT NULL,
     author INT NOT NULL,
     FOREIGN_KEY (author) REFERENCES (authorId) 
+    ON DELETE CASCADE
 );
 
-/home
-Homepage. Show recent added posts
+CREATE TABLE IF NOT EXISTS jwt_auth (
+        authorId INT PRIMARY KEY,
+        jwt TEXT,
+        CONSTRAIN fk author
+        FOREIGN_KEY authorId 
+        REFERENCES author(authorId)
+        ON DELETE CASCADE
+)
+
+CREATE TABLE IF NOT EXISTS comments (
+    commentId SERIAL PRIMARY KEY,
+    
+)
+
+
 
 
 

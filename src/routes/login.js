@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
   if (token) {
     res.redirect("/user");
   } else {
-    res.render("login", { message: undefined });
+    res.status(200).render("login", { message: undefined });
   }
 });
 
@@ -50,7 +50,7 @@ router.post("/", async (req, res) => {
       `JWT_TOKEN=${token}; httponly; samesite: lax`,
     ]);
 
-    res.status(200).redirect("/user");
+    res.redirect("/user");
   } catch (error) {
     res.status(401).render("login", { message: error });
   }

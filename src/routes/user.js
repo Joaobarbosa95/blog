@@ -15,11 +15,13 @@ router.get("/", tokenValidation, (req, res) => {
 });
 
 router.get("/create", (req, res) => {
-  res.render("create-user", { message: null });
+  res.status(200).render("create-user", { message: null });
 });
 
 router.post("/create", async (req, res) => {
   const { username, email, password1, password2 } = req.body;
+
+  // Trim info and transform it case insensitive, except passoword
 
   try {
     // check usename, email and password
@@ -53,7 +55,7 @@ router.post("/create", async (req, res) => {
       [username, email, hashedPassword]
     );
 
-    res.status(201).redirect("/");
+    res.redirect(201, "/");
   } catch (error) {
     res.status(401).render("create-user", { message: error });
   }

@@ -33,7 +33,8 @@ function tablesCreation() {
           CONSTRAINT fk_author
           FOREIGN KEY(author) 
           REFERENCES author(authorId)
-        );`);
+          ON DELETE CASCADE
+          );`);
 
       await client.end();
       resolve();
