@@ -19,15 +19,42 @@ router.get("/create", tokenValidation, (req, res) => {
 
 router.post("/create", tokenValidation, async (req, res) => {
   const { title, description, text } = req.body;
-  const { userid } = req.userid;
+  const userid = req.userid;
 
   try {
     await db.query(
-      "INSERT INTO posts (title, description, text, createdAt, author) VALUES($1, $2, $3, NOW(), $4)",
+      "INSERT INTO posts (title, description, text, author, createdAt) VALUES($1, $2, $3, $4, NOW())",
       [title, description, text, userid]
     );
     res.status(201).redirect("/");
   } catch (error) {
     console.log(error);
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    if (!postId) throw "Invalid post id";
+
+    const response = await db.query("SELECT * FROM posts WHERE postId=$1", [
+      postId,
+    ]);
+
+    if (response.rows.length === 0) throw "Post not found";
+
+    const post = ({
+      title,
+      text,
+      description,
+      createat,
+      author,
+      id: postid,
+    } = response.rows[0]);
+
+    res.status(200).render("post", { post: post });
+  } catch (error) {
+    res.status(401).render("post", { post: undefined });
   }
 });

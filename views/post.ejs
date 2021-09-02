@@ -1,0 +1,18 @@
+<html lang="en">
+<head>
+    <%- include("./templates/head") -%>
+</head>
+<body>
+    <% if(post) { %>
+        <div>
+            <h1><%= post.title %></h1>
+            <p><%= post.author %></p>
+            <p><%= post.createdat %></p>
+            <h2><%= post.description %></h2>
+            <p><%= post.text %></p>
+        </div>
+    <% } else { %>
+        <h1>Post not found</h1>
+    <% } %>
+</body>
+</html>

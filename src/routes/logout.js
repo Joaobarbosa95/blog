@@ -5,5 +5,7 @@ const router = new Router();
 module.exports = router;
 
 router.get("/", tokenValidation, (req, res) => {
-  res.clearCookie("JWT_TOKEN", { path: "/" }).redirect("/login");
+  res
+    .clearCookie("JWT_TOKEN", { path: "/" })
+    .render("login", { message: "Logged out successfully" });
 });

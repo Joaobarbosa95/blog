@@ -2,6 +2,8 @@ const Router = require("express-promise-router");
 const bcrypt = require("bcrypt");
 const emailValidator = require("email-validator");
 const tokenValidation = require("../middleware/jwt-validation");
+const jwt = require("jsonwebtoken");
+const JWT_TOKEN_SECRET = process.env.JWT_TOKEN_SECRET;
 
 const db = require("../db");
 const router = new Router();
@@ -12,6 +14,7 @@ router.get("/", tokenValidation, (req, res) => {
   // req.username
   // req.userid
   res.render("user", {
+    // Dummy data
     profile: {
       username: req.username,
       posts: [
@@ -63,17 +66,35 @@ router.post("/create", async (req, res) => {
       [username, email, hashedPassword]
     );
 
+    // Set JWT
+    const { rows } = await db.query(
+      "SELECT authorId, username FROM author WHERE username = $1",
+      [username]
+    );
+    const payload = {
+      username: rows[0].username,
+      authorId: rows[0].authorid,
+    };
+
+    const token = jwt.sign(payload, JWT_TOKEN_SECRET, {
+      algorithm: "HS256",
+    });
+
+    res.setHeader("set-cookie", [
+      `JWT_TOKEN=${token}; httponly; samesite: lax`,
+    ]);
+
     res.redirect("/");
   } catch (error) {
     res.status(401).render("create-user", { message: error });
   }
 });
 
-route.get("/delete", tokenValidation, async (req, res) => {
+router.get("/delete", tokenValidation, async (req, res) => {
   const id = req.userid;
 
   // The delete is on cascade mode, but that means it will also delete all posts
-  const response = await db.query("DELETE FROM author WHERE id=$1", [id]);
+  const response = await db.query("DELETE FROM author WHERE authorId=$1", [id]);
 
-  res.status(204).render("login", { message: "Account and posts deleted" });
+  res.status(204).clearCookie("JWT_TOKEN", { path: "/" }).redirect("/login");
 });
