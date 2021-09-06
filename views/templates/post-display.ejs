@@ -1,0 +1,11 @@
+<div id="post-display">
+    <% posts.forEach((post) => { %>
+    <div class="post">
+        <h1 class="title"><%= post.title %></h1>
+        <p class="author"><%= post.author %></p>
+        <p class="description"><%= post.text %></p>
+        <button class="read-more-btn" onclick="location.href=`post/${<%= post.postid %>}`">READ MORE</button>
+        <p class="posted">Posted <%= post.createdat.getDay() %>-<%= post.createdat.getMonth() %>-<%= post.createdat.getFullYear() %></p>
+    </div>
+    <% }) %>
+</div>

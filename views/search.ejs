@@ -1,0 +1,17 @@
+<html lang="en">
+<head>
+    <%- include("./templates/head") -%>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+    <form action="/search" method="POST">
+        <label for="search">Search: </label>
+        <input type="text" name="search">
+        <input type="submit" value="Search">
+    </form>
+
+    <% if (posts) { %>
+        <%- include("./templates/post-display") -%>
+    <% } %>
+</body>
+</html>

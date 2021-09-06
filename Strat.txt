@@ -60,7 +60,6 @@ CREATE TABLE IF NOT EXISTS comments (
 
 // /user/password --> user upgrade password
 
-// post/:id --> read more about the post/article
-// post/search --> search based on key words
 
+// convertIdToUsername --> In large scale will hit the database to many times -- find alternative
 

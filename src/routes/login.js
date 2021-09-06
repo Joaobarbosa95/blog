@@ -37,7 +37,6 @@ router.post("/", async (req, res) => {
     if (!result) throw "Incorrect password";
 
     // add JWT to tokens table
-
     const payload = {
       username: rows[0].username,
       authorId: rows[0].authorid,
