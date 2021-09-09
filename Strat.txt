@@ -58,6 +58,8 @@ CREATE TABLE IF NOT EXISTS comments (
     ON DELETE CASCADE
 )
 
+Post text --> will need a table that will only have the content(TEXT) of the post. It will faster to load the home page and the search result, hitting the database to search only if READ MORE is clicked
+
 // /user/password --> user upgrade password
 
 

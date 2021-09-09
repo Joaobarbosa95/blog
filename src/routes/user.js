@@ -80,9 +80,11 @@ router.post("/create", async (req, res) => {
       algorithm: "HS256",
     });
 
-    res.setHeader("set-cookie", [
-      `JWT_TOKEN=${token}; httponly; samesite: lax`,
-    ]);
+    res.cookie("JWT_TOKEN", `${token}`, {
+      domain: "localhost",
+      path: "/",
+      secure: true,
+    });
 
     res.redirect("/");
   } catch (error) {
@@ -97,4 +99,52 @@ router.get("/delete", tokenValidation, async (req, res) => {
   const response = await db.query("DELETE FROM author WHERE authorId=$1", [id]);
 
   res.status(204).clearCookie("JWT_TOKEN", { path: "/" }).redirect("/login");
+});
+
+router.get("/password", (req, res) => {
+  res.render("user-password", { message: undefined });
+});
+
+router.post("/password", tokenValidation, async (req, res) => {
+  try {
+    const {
+      ["current-password"]: currentPassword,
+      ["new-password"]: newPassword,
+      ["new-password-repeat"]: newPasswordRepeat,
+    } = req.body;
+
+    // New passwords don't match
+    if (newPassword !== newPasswordRepeat) throw "Password don't match";
+
+    // password length restrictions
+    if (newPassword.length < 7)
+      throw "Password must be at least 8 characters long";
+
+    const userId = req.userid;
+
+    const { rows } = await db.query(
+      "SELECT hashed_password FROM author WHERE authorId = $1",
+      [userId]
+    );
+
+    console.log(rows[0]);
+    const hashedPassword = rows[0]["hashed_password"];
+
+    console.log(hashedPassword);
+    const result = await bcrypt.compare(currentPassword, hashedPassword);
+    console.log(result);
+
+    if (!result) throw "Wrong Password";
+
+    const newHashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await db.query(
+      "UPDATE author SET hashed_password = $1 WHERE authorId = $2",
+      [newHashedPassword, userId]
+    );
+
+    res.render("user-password", { message: "Password succefully changed" });
+  } catch (error) {
+    res.render("user-password", { message: error });
+  }
 });
